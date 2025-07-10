@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            /* box-sizing: border-box; */
+            padding: 0;
+            margin: 0;
+        }
+
+        .main-container {
+            /* height: 100%; */
+            width: 100%;
+            /* background: #000; */
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 4px;
+        }
+
+        .folder,
+        .file {
+            padding: 1rem;
+            border: 2px solid black;
+            border-radius: .5rem;
+            padding-right: 3rem;
+            position: relative;
+            /* flex: 0 0 calc(25% - 1rem); */
+            /* EXACT width, no grow/shrink */
+            /* max-width: calc(25% - 1rem); */
+            /* prevent overflow */
+            box-sizing: border-box;
+        }
+
+        .folder::after,
+        .file::after {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            right: 1.5rem;
+            /* background: #000; */
+        }
+
+        .folder::after {
+            content: "📁";
+        }
+
+        .file::after {
+            content: "📄";
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container" id="explorer">
+    </div>
+
+
+
+
+
+
+    <script>
+
+        let pwd = ""
+
+        let structuredTree = {};
+        const repoFullName = "shivamsingh0000/All-coding"; 
+        async function fetchRepoTree(repoFullName, branch = "main") {
+            const [owner, repo] = repoFullName.split("/");
+            const refRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${branch}`);
+            if (!refRes.ok) throw new Error("Branch not found"); // if branch of a repo is not found
+            const refData = await refRes.json();
+            const commitSha = refData.object.sha;
+
+            const commitRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/commits/${commitSha}`);
+            const commitData = await commitRes.json();
+            const treeSha = commitData.tree.sha;
+
+            const treeRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${treeSha}?recursive=1`);
+            const treeData = await treeRes.json();
+            // console.log("treeData:", treeData);
+            return treeData.tree;
+        }
+
+        async function loadFiles() {
+            try {
+                structuredTree = await fetchRepoTree(repoFullName);
+                // console.log("structuredTree:", structuredTree);
+            } catch (err) {
+                console.error("Error fetching repo tree:", err);
+            }
+        }
+
+        function buildTree(files) {
+            const tree = [];
+            const fileMap = {};
+
+            function addToTree(path, type) {
+                const parts = path.split("/");
+                let current = tree;
+
+                parts.forEach((part, index) => {
+                    const existing = current.find(item => item.name === part);
+                    if (existing) {
+                        current = existing.children;
+                    } else {
+                        const newItem = {
+                            name: part,
+                            type: index === parts.length - 1 ? type : "tree",
+                            children: []
+                        };
+                        console.log("type : " + index === parts.length - 1 ? type : "tree");
+                        
+                        current.push(newItem);
+                        current = newItem.children;
+                    }
+                });
+            }
+
+            files.forEach(file => {
+                if (file.type === "tree") {
+                    addToTree(file.path, "tree");
+                } else {
+                    addToTree(file.path, "file");
+                }
+            });
+            
+            console.table(tree)
+            return tree;
+        }
+
+        function renderTree(tree, baseUrl) {
+
+
+            function clearExplorer() {
+                const explorer = document.getElementById("explorer");
+                while (explorer.firstChild) explorer.removeChild(explorer.firstChild);
+            }
+
+
+            function findByPath(tree, pathArr) {
+                if (!pathArr.length) return tree;
+                let current = tree;
+                for (let part of pathArr) {
+                    const found = current.find(item => item.name === part && item.type === "tree");
+                    if (!found) return [];
+                    current = found.children;
+                }
+                return current;
+            }
+
+            let navStack = [];
+
+            function renderItems(items, parentPath = "") {
+                clearExplorer();
+
+                if (navStack.length > 0) {
+                    const backDiv = document.createElement("div");
+                    backDiv.style.width = "100%";
+                    backDiv.style.marginBottom = "8px";
+                    const backBtn = document.createElement("button");
+                    backBtn.innerText = "← Back";
+                    backBtn.style.cursor = "pointer";
+                    backBtn.style.marginBottom = "8px";
+                    backBtn.addEventListener("click", () => {
+                        navStack.pop();
+                        const parentItems = findByPath(tree, navStack);
+                        renderItems(parentItems, navStack.join("/"));
+                    });
+                    backDiv.appendChild(backBtn);
+                    document.getElementById("explorer").appendChild(backDiv);
+                }
+
+                items.forEach(item => {
+                    const fullPath = parentPath ? parentPath + "/" + item.name : item.name;
+                    const div = document.createElement("div");
+                    div.classList.add(item.type === "tree" ? "folder" : "file");
+
+                    if (item.type === "tree") {
+                        const a = document.createElement("a");
+                        a.href = "#";
+                        a.innerText = item.name;
+                        a.addEventListener("click", (e) => {
+                            e.preventDefault();
+                            navStack.push(item.name);
+                            renderItems(item.children, fullPath);
+                        });
+                        div.appendChild(a);
+                        document.getElementById("explorer").appendChild(div);
+                    } else if (item.name.toLowerCase().endsWith(".html")) {
+                        const a = document.createElement("a");
+                        a.href = baseUrl + "/" + fullPath;
+                        a.innerText = item.name;
+                        a.target = "_blank";
+                        div.appendChild(a);
+                        document.getElementById("explorer").appendChild(div);
+                    }
+                });
+            }
+
+            navStack = [];
+            renderItems(tree, "");
+        }
+
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            await loadFiles();
+            const fileTree = buildTree(structuredTree);
+            renderTree(fileTree, `https://${repoFullName.split("/")[0]}.github.io/${repoFullName.split("/")[1]}`)
+            // console.table(fileTree);
+        });
+
+    </script>
+</body>
+
+</html>
