@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rock paper scissors</title>
+  <link rel="stylesheet" href="rock paper scissors .css">
+</head>
+<body>
+<p id="paragraph">ROCK PAPER SCISSORS</p>
+<p id="paragraphia"></p>
+<button onclick="mymove(`ROCK`);" class="move-btn">
+  <img src="imagerock.png"  class="move-icon">
+</button>
+
+<button onclick="mymove(`PAPER`)" class="move-btn">
+ <img src="imagepaper.png" class="move-icon">
+</button>
+
+<button onclick=" mymove(`SCISSORS`);" class="move-btn">
+  <img src="imagescissor.png" class="move-icon">
+</button>
+
+<p class="result" style="font-weight: bolder;font-family: verdana;"></p>
+
+<h3 class="h3" style="font-size: larger;"></h3>
+
+<p class="move" style="font-weight: bolder;font-family: verdana;"></p>
+
+<button onclick="
+  score.wins = 0;
+  score.looses = 0;
+  score.ties = 0;
+  localStorage.removeItem('score');
+  updatescore();
+" id="reset-button">RESET SCORE
+</button>
+
+
+<script>
+  const headings = document.querySelector('.h3');
+  const resultt = document.querySelector('.result');
+  const move = document.querySelector('.move')
+  let score = JSON.parse(localStorage.getItem('score'))|| {
+      wins : 0,
+      looses : 0,
+      ties : 0
+    };
+    updatescore();
+ 
+
+  function mymove(choice) {
+  const computermove  = pickcompmove();
+  let result = '';
+  
+  if (choice === "SCISSORS"){
+    if (computermove === 'SCISSORS') {
+      result = 'TIE😎';
+    } else if (computermove === 'ROCK') {
+      result = 'LOSE😁';
+    } else if (computermove === 'PAPER') {
+      result = 'WIN🤩';
+    }
+  }
+
+  else if (choice === "ROCK"){
+    if (computermove === 'ROCK') {
+      result = 'TIE😎';
+    } else if (computermove === 'PAPER') {
+      result = 'LOSE😁';
+    } else if (computermove === 'SCISSORS') {
+      result = 'WIN🤩';
+    }
+  }
+  
+  else if (choice === "PAPER"){
+    if (computermove === 'PAPER') {
+      result = 'TIE😎';
+    } else if (computermove === 'SCISSORS') {
+      result = 'LOSE😁';
+    } else if (computermove === 'ROCK') {
+      result = 'WIN🤩';
+    }
+  }
+
+  
+  if (result === 'WIN🤩'){
+    score.wins += 1;
+  } else if (result === 'LOSE😁'){
+    score.looses += 1;
+  } else if (result === 'TIE😎'){
+    score.ties += 1;
+  }
+
+  localStorage.setItem('score', JSON.stringify(score));
+
+  updatescore();
+  resultt.innerHTML = `YOU ${result}`;
+  move.innerHTML = `COMPUTERMOVE = ${computermove} --------   YOUR MOVE = ${choice}`;
+  }
+
+
+
+  function pickcompmove(){
+    const randomnumber = Math.random();
+    let computermove = "";
+
+  if (randomnumber >= 0 &&randomnumber < 1/3){
+    computermove = 'ROCK';
+  }
+  else if (randomnumber >= 1/3 &&randomnumber < 2/3){
+    computermove = 'PAPER';
+  }
+  else {
+    computermove = 'SCISSORS';
+  }
+  return computermove;
+}
+   
+  function updatescore() {
+  headings.innerHTML = ` WINS : ${score.wins},LOSSES : ${score.looses},TIES : ${score.ties}`;
+}
+    //Our move was ${computermove} and your move was ${choice} and you, ${result}  
+</script>
+</body>
+</html>

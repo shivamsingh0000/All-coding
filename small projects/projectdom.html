@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <style>
+    .button{
+      padding-left: 1%;
+      padding-right: 1%;
+      padding-top: 0.5%;
+      padding-bottom: 0.5%;
+      border-radius: 2rem;
+      box-shadow: 0.2cm;
+      border: none;
+      background-color: rgb(0, 0, 0);
+      color: white;
+      cursor: pointer;
+    }
+    #button{
+      padding-left: 1%;
+      padding-right: 1%;
+      padding-top: 0.3%;
+      padding-bottom: 0.3%;
+      box-shadow: 0.2cm;
+      border-bottom: 10;
+      font-weight: bold;
+      background-color: rgb(13, 255, 0);
+      color: rgb(255, 255, 255);
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      padding:10px;
+    }
+    .subscribed{
+      background-color: grey;
+      color: black;
+    }
+    .box{
+      padding:10px;
+    }
+  </style>
+  <p>YouTube Subscribe button</p>
+  <button class="button">
+    Subscribe
+  </button>
+  <br><br>
+
+  <p>Amazon order shipment</p>
+  <p>Order under $50 to save $10</p>
+  <input class="box" placeholder="cost of order" type="text" onkeydown="handlecost(event)">
+  <button id="button" onclick="calculatetotal();document.querySelector('.pera').innerHTML = '';">
+    Calculate
+  </button>
+  <p class="pera">Press entre to calculate</p>
+  <p class="total"></p>
+  <script>
+    const inputbox = document.querySelector('input');
+    const total = document.querySelector(".total");
+
+    function handlecost(event) {
+      if (event.key === 'Enter') {
+      calculatetotal();
+      document.querySelector('.pera').innerHTML = '';
+    }
+    }
+    function calculatetotal() {
+      if (inputbox.value > 50){
+        total.innerHTML = 'Total amount $'+(Number(inputbox.value) + 10) ;
+        inputbox.value='';
+      }else{
+        total.innerHTML = 'Total amount $'+inputbox.value;
+        inputbox.value='';
+      }
+    }
+
+    const buttonElement = document.querySelector('button');
+    document.querySelector('button').onclick = function(){
+      if (buttonElement.innerText === 'Subscribe') {
+        buttonElement.innerText = 'Subscribed';
+        buttonElement.classList.add('subscribed')
+      }else if (buttonElement.innerText = 'Subscribed'){
+        alert('sure u want to unsubscribe?');
+        buttonElement.innerText = 'Subscribe';
+         buttonElement.classList.toggle('subscribed')
+      }
+    }
+  </script>
+</body>
+</html>

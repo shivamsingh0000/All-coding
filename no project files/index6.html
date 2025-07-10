@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>day 3 file 6</title>
+</head>
+<body>
+  <script>
+   /** const array =   [10, 20, 30];//arrey
+    console.log(array);
+    array[2]=34;//munipilation
+    console.log(array[2]);//indexing
+    
+    const ARRAY = [1, 'hi', 4, {father: 'pradip kumar singh'}, [78, 'rajdeep', {rajni: 'gandha'}]]
+    console.log(ARRAY);*/
+
+    /*let star = 0
+    while (star <= 5) {
+      console.log(star);
+      star+=1;
+    }
+
+
+    for (let fruit = 1; fruit <= 5; fruit++) {
+      console.log(fruit);
+    }
+    
+    let randomnumber = 0;
+    while (randomnumber < 3) {
+      randomnumber = Math.floor((Math.random()*2)+1);
+      console.log(randomnumber);
+      break;
+    }
+
+    //looping through an arrey
+    const ToDoList = [
+      'make dinner',
+      'wash dishes',
+      'do laundry'
+    ];
+    for (let index = 0; index < ToDoList.length; index++) {
+      const element = ToDoList[index];
+      console.log(element);
+    }*/
+
+    //accumulator pattern
+    const array = [1,2,3];
+    let storeresult = 0;
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      storeresult += element;
+    }
+    console.log(storeresult);
+
+    const doublenumst = [];
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      doublenumst.push(element * 2)
+    }
+    console.log(doublenumst)
+  </script>
+</body>
+</html>

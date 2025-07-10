@@ -1,0 +1,153 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDoList</title>
+</head>
+<body>
+  <h1>ToDo List</h1>
+
+  <input type="text" placeholder="Add Tasks" class="input-box"> <input type="date" class="date-section"> <button class="Adding-button">Add</button>
+  <div class="division"></div>
+  <script>
+    const datecon = document.querySelector('.date-section');
+    const holder = document.querySelector('.input-box');
+    const clicker = document.querySelector('.Adding-button');
+    const storedList = localStorage.getItem('ToDoList');
+    const ToDoList = storedList ? JSON.parse(storedList) : [];
+    todoonpage();
+    worker();
+    function todoonpage() {
+    let printable = '';
+    for (let index = 0; index < ToDoList.length; index++) {
+      const element = ToDoList[index];
+      const html = `<p>
+        ${element.valueofinput} on <br> ${element.valueofdate}
+        <button onclick="ToDoList.splice(${index}, 1);
+        todoonpage();localStorage.setItem('ToDoList', JSON.stringify(ToDoList));
+">Delete me</button>
+          </p>`;
+      printable += html;
+    }
+    localStorage.setItem('ToDoList', JSON.stringify(ToDoList));
+
+    console.log(printable);
+    document.querySelector('.division').innerHTML = printable
+    }  
+        function worker() {
+        clicker.onclick = function(){
+           let todoobj ={
+          valueofinput : holder.value,
+          valueofdate : datecon.value
+        }
+          if (holder.value === ""|| datecon.value === "") {
+        alert('plaese enter task and date first')}
+        else{
+        ToDoList.push(todoobj);
+        holder.value= ''; 
+        datecon.value= ''; 
+        todoonpage();
+      }}}
+    
+  </script>
+  <style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    background: #f2f4f8;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  p:first-of-type {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+
+  .input-box, .date-section {
+    padding: 10px;
+    margin: 10px 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 250px;
+    max-width: 90%;
+    transition: all 0.3s ease;
+  }
+
+  .input-box:focus, .date-section:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.4);
+  }
+
+  .Adding-button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .Adding-button:hover {
+    background-color: #2980b9;
+  }
+
+  .division {
+    margin-top: 30px;
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    text-align: left;
+  }
+
+  .division p {
+    background: #ecf0f1;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .division button {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .division button:hover {
+    background-color: #c0392b;
+  }
+
+  @media (max-width: 600px) {
+    .input-box, .date-section {
+      width: 90%;
+    }
+
+    .division {
+      padding: 10px;
+    }
+  }
+</style>
+
+</body>
+</html
