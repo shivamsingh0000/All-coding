@@ -28,7 +28,7 @@ const products = [
     name: 'Backpack',
     rating:{
       stars: 50,
-      count : 198
+      count : 1098
     },
     priceCents: 3079
   }
