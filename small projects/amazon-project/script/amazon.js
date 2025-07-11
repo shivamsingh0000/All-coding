@@ -23,6 +23,14 @@ const products = [
       count : 56
     },
     priceCents: 779
+  },{
+    image : "images/products/backpack.jpg",
+    name: 'Backpack',
+    rating:{
+      stars: 50,
+      count : 198
+    },
+    priceCents: 3079
   }
 ];
 
@@ -82,4 +90,8 @@ productsHTML +=
 });
 console.log(productsHTML);
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+
+
+
 
