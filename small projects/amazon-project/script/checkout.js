@@ -7,7 +7,7 @@ import{ deliveryOptions } from"../data/deliveryOptions.js"
 
 function renderOrderSummary(){
 
-}
+
 
 let cartSummaryHTML = '';
 
@@ -131,5 +131,9 @@ document.querySelectorAll('.js-delivery-option')
    const productId = element.dataset.productId;
    const deliveryOptionId = element.dataset.deliveryOptionId;
    updateDeliveryOption(productId, deliveryOptionId);
+   renderOrderSummary();
   })
 })
+}
+
+renderOrderSummary();
