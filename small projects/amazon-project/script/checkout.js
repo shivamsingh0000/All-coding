@@ -8,7 +8,9 @@ const today = dayjs();
 const deliveryDate = today.add(7, 'days');
 deliveryDate.format('dddd, MMMM D');
 
+function renderOrderSummary(){
 
+}
 
 let cartSummaryHTML = '';
 
@@ -34,7 +36,7 @@ cart.forEach((cartItem) => {
 
   const today = dayjs();
     const deliveryDate = today.add(
-      deliveryOption.deliveryDays, 'days'
+      deliveryOptions.deliveryDays, 'days'
     )
     const dateString = deliveryDate.format(
       'dddd, MMMM D'
@@ -123,4 +125,4 @@ document.querySelectorAll('.js-delete-link')
       
     )
     container.remove();
-  })})
+})})
