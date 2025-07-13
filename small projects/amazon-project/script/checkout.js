@@ -89,8 +89,6 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
     const dateString = deliveryDate.format(
       'dddd, MMMM D'
     )
-    console.log(dateString)
-    console.log(deliveryDate)
     const priceString = deliveryOptions.priceCents === 0
     ? 'FREE'
     :`$${formatCurrency(deliveryOptions.priceCents)} - `;
@@ -107,8 +105,6 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
 
   })
   return html;
-
-  today.dilevryDate
 }
 
 // Now it's accessible
