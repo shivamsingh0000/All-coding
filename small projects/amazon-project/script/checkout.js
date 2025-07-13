@@ -4,9 +4,6 @@ import { formatCurrency } from "./utils/money.js";
 import  dayjs  from "https://unpkg.com/dayjs@1.11.10/esm/index.js"
 import{ deliveryOptions } from"../data/deliveryOptions.js"
 // Declare this outside the loop so it accumulates all items
-const today = dayjs();
-const deliveryDate = today.add(7, 'days');
-deliveryDate.format('dddd, MMMM D');
 
 function renderOrderSummary(){
 
@@ -84,7 +81,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
   deliveryOptions.forEach((deliveryOptions)=>{
     const today = dayjs();
     const deliveryDate = today.add(
-      deliveryOptions.deliveryDays, `Days`
+      deliveryOptions.deliveryDays, `days`
     )
     const dateString = deliveryDate.format(
       'dddd, MMMM D'
@@ -131,7 +128,8 @@ document.querySelectorAll('.js-delete-link')
 document.querySelectorAll('.js-delivery-option')
 .forEach((element)=>{
   element.addEventListener('click', ()=>{
-    const {productId, deliveryOptionsId} = element.dataset;
-    updateDeliveryOption(productId, deliveryOptionsId);
+   const productId = element.dataset.productId;
+const deliveryOptionId = element.dataset.deliveryOptionId;
+updateDeliveryOption(productId, deliveryOptionId);
   })
 })
