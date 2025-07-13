@@ -94,7 +94,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
     :`$${formatCurrency(deliveryOptions.priceCents)} - `;
 
     const isChecked  = deliveryOptions.id === cartItem.deliveryOptionsId;
-    html +=` <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id} data-delivery-option-id="${deliveryOptions.id}>
+    html +=` <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id}" data-delivery-option-id="${deliveryOptions.id}">
             <input type="radio"${isChecked? 'checked':''} class="delivery-option-input" name="delivery-option-${matchingProduct.id}">
             <div>
               <div class="delivery-option-date">${dateString}</div>
@@ -131,7 +131,7 @@ document.querySelectorAll('.js-delete-link')
 document.querySelectorAll('.js-delivery-option')
 .forEach((element)=>{
   element.addEventListener('click', ()=>{
-    const {productId, deliveryOptions} = element.dataset;
-    updateDeliveryOption(productId, deliveryOptions);
+    const {productId, deliveryOptionsId} = element.dataset;
+    updateDeliveryOption(productId, deliveryOptionsId);
   })
 })
