@@ -36,7 +36,7 @@ cart.forEach((cartItem) => {
 
   const today = dayjs();
     const deliveryDate = today.add(
-      deliveryOptions.deliveryDays, 'days'
+      deliveryOption.deliveryDays, 'days'
     )
     const dateString = deliveryDate.format(
       'dddd, MMMM D'
@@ -84,12 +84,14 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
   deliveryOptions.forEach((deliveryOptions)=>{
     const today = dayjs();
     const deliveryDate = today.add(
-      deliveryOptions.deliveryDays, 'days'
+      deliveryOptions.deliveryDays, `Days`
     )
     const dateString = deliveryDate.format(
       'dddd, MMMM D'
     )
-    const priceString = deliveryOptions.priceCents ===0
+    console.log(dateString)
+    console.log(deliveryDate)
+    const priceString = deliveryOptions.priceCents === 0
     ? 'FREE'
     :`$${formatCurrency(deliveryOptions.priceCents)} - `;
 
@@ -105,6 +107,8 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
 
   })
   return html;
+
+  today.dilevryDate
 }
 
 // Now it's accessible
