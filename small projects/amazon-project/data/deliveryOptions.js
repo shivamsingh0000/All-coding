@@ -13,3 +13,15 @@ id: '2',
   priceCents: 999
 }
 ];
+
+
+export function getDeliveryOption(deliveryOptionsId){
+  let deliveryOption;
+
+  deliveryOptions.forEach((option)=>{
+    if (option.id === deliveryOptionsId){
+      deliveryOption = option;
+    }
+  })
+  return deliveryOption || deliveryOptions[0];
+}
