@@ -3,7 +3,7 @@ import { products, getProduct } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import  dayjs  from "https://unpkg.com/dayjs@1.11.10/esm/index.js"
 import{ deliveryOptions, getDeliveryOption } from"../../data/deliveryOptions.js"
-// Declare this outside the loop so it accumulates all items
+import { renderPaymentSummary } from "./paymentSummary.js";// Declare this outside the loop so it accumulates all items
 
 export function renderOrderSummary(){
 
@@ -110,6 +110,8 @@ document.querySelectorAll('.js-delete-link')
       
     )
     container.remove();
+
+    renderPaymentSummary()
 });
 });
 
@@ -120,6 +122,7 @@ document.querySelectorAll('.js-delivery-option')
    const deliveryOptionId = element.dataset.deliveryOptionId;
    updateDeliveryOption(productId, deliveryOptionId);
    renderOrderSummary();
+   renderPaymentSummary()
   })
 })
 }
