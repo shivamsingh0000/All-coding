@@ -6,9 +6,6 @@ import{ deliveryOptions, getDeliveryOption } from"../../data/deliveryOptions.js"
 import { renderPaymentSummary } from "./paymentSummary.js";// Declare this outside the loop so it accumulates all items
 
 export function renderOrderSummary(){
-
-
-
 let cartSummaryHTML = '';
 
 cart.forEach((cartItem) => {
