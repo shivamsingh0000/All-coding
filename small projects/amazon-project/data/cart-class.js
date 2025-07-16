@@ -22,7 +22,7 @@ constructor(localStorageKey){
 };
 
 saveToStorage(){
-  #localStorage.setItem(this.localStorageKey, JSON.stringify(this))
+  localStorage.setItem(this.localStorageKey, JSON.stringify(this))
 };
 addtocart(productId){
   let matchingItem;
